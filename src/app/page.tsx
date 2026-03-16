@@ -630,8 +630,19 @@ export default function Home() {
               <thead>
                 <tr>
                   <th style={{ textAlign: "left", padding: "14px 16px", borderBottom: "1px solid var(--border)", fontSize: 13, color: "var(--slate)" }}>Scenario</th>
-                  <th style={{ textAlign: "left", padding: "14px 16px", borderBottom: "1px solid var(--border)", fontSize: 13, color: "var(--slate)" }}>ChatGPT / Claude</th>
-                  <th style={{ textAlign: "left", padding: "14px 16px", borderBottom: "1px solid var(--border)", fontSize: 13, color: "var(--slate)" }}>Clerk</th>
+                  <th style={{ textAlign: "left", padding: "14px 16px", borderBottom: "1px solid var(--border)", fontSize: 13, color: "var(--slate)" }}>
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                      <img src="https://cdn.simpleicons.org/openai/6B7280" alt="OpenAI" width="16" height="16" />
+                      <img src="https://cdn.simpleicons.org/anthropic/6B7280" alt="Anthropic" width="16" height="16" />
+                      ChatGPT / Claude
+                    </span>
+                  </th>
+                  <th style={{ textAlign: "left", padding: "14px 16px", borderBottom: "1px solid var(--border)", fontSize: 13, color: "var(--slate)" }}>
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                      <span style={{ width: 16, height: 16, borderRadius: "50%", background: "var(--sage)", display: "inline-block" }} />
+                      Clerk
+                    </span>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -660,7 +671,12 @@ export default function Home() {
                   <tr key={r.s}>
                     <td style={{ padding: "14px 16px", borderBottom: i < 3 ? "1px solid var(--border)" : "none", fontWeight: 600 }}>{r.s}</td>
                     <td style={{ padding: "14px 16px", borderBottom: i < 3 ? "1px solid var(--border)" : "none", color: "var(--slate)" }}>{r.a}</td>
-                    <td style={{ padding: "14px 16px", borderBottom: i < 3 ? "1px solid var(--border)" : "none", color: "var(--ink)" }}>{r.c}</td>
+                    <td style={{ padding: "14px 16px", borderBottom: i < 3 ? "1px solid var(--border)" : "none", color: "var(--ink)" }}>
+                      <span style={{ display: "inline-flex", alignItems: "flex-start", gap: 8 }}>
+                        <span style={{ color: "var(--sage)", fontWeight: 700 }}>✓</span>
+                        <span>{r.c}</span>
+                      </span>
+                    </td>
                   </tr>
                 ))}
               </tbody>
