@@ -48,6 +48,24 @@ export function getDb(): Database.Database {
       timestamp TEXT NOT NULL DEFAULT (datetime('now')),
       FOREIGN KEY (tenant_id) REFERENCES tenants(id)
     );
+
+    CREATE TABLE IF NOT EXISTS connector_heartbeats (
+      connector_id TEXT PRIMARY KEY,
+      status TEXT NOT NULL,
+      last_seen TEXT NOT NULL DEFAULT (datetime('now')),
+      meta_json TEXT
+    );
+
+    CREATE TABLE IF NOT EXISTS connector_tasks (
+      id TEXT PRIMARY KEY,
+      connector_id TEXT NOT NULL,
+      type TEXT NOT NULL,
+      payload_json TEXT,
+      status TEXT NOT NULL DEFAULT 'pending',
+      result_json TEXT,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
   `);
 
   return db;
