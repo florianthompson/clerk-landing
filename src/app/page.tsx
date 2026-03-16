@@ -1,8 +1,30 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import LiveFeed from "@/components/LiveFeed";
 
 export default function Home() {
+  const [mode, setMode] = useState<"personal" | "professional">("personal");
+  const [job, setJob] = useState("");
+
+  const tasks = useMemo(() => {
+    if (mode === "personal") {
+      return [
+        "Plan your week and prioritize appointments",
+        "Draft and send emails/messages for you",
+        "Create reminders and follow-ups automatically",
+        "Research purchases, compare options, summarize",
+      ];
+    }
+    const role = job.trim() || "your role";
+    return [
+      `Break down ${role} work into daily action tasks`,
+      "Handle inbox triage and draft client replies",
+      "Generate SOPs, checklists, and execution scripts",
+      "Track open tasks and send proactive follow-ups",
+    ];
+  }, [mode, job]);
+
   return (
     <>
       {/* NAV */}
@@ -395,6 +417,123 @@ export default function Home() {
                 />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WHAT CAN IT DO */}
+      <section style={{ padding: "96px 32px", background: "var(--paper)" }}>
+        <div style={{ maxWidth: 920, margin: "0 auto" }}>
+          <p
+            style={{
+              fontSize: 12,
+              textTransform: "uppercase",
+              letterSpacing: "0.12em",
+              color: "var(--sage)",
+              fontWeight: 600,
+              marginBottom: 16,
+            }}
+          >
+            What can it do
+          </p>
+          <h2
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(30px, 4.2vw, 46px)",
+              fontWeight: 400,
+              letterSpacing: "-0.02em",
+              marginBottom: 18,
+            }}
+          >
+            One AI assistant, tailored to your life or work
+          </h2>
+
+          <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
+            <button
+              onClick={() => setMode("personal")}
+              style={{
+                padding: "10px 16px",
+                borderRadius: "999px",
+                border: "1px solid var(--border)",
+                background: mode === "personal" ? "var(--ink)" : "var(--paper)",
+                color: mode === "personal" ? "var(--paper)" : "var(--ink)",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Personal
+            </button>
+            <button
+              onClick={() => setMode("professional")}
+              style={{
+                padding: "10px 16px",
+                borderRadius: "999px",
+                border: "1px solid var(--border)",
+                background: mode === "professional" ? "var(--ink)" : "var(--paper)",
+                color: mode === "professional" ? "var(--paper)" : "var(--ink)",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Professional
+            </button>
+          </div>
+
+          <div
+            style={{
+              background: "var(--warm)",
+              border: "1px solid var(--border)",
+              borderRadius: "var(--radius)",
+              padding: 18,
+              marginBottom: 18,
+            }}
+          >
+            <label style={{ fontSize: 13, color: "var(--slate)", display: "block", marginBottom: 8 }}>
+              What do you do for work?
+            </label>
+            <input
+              value={job}
+              onChange={(e) => setJob(e.target.value)}
+              placeholder="e.g. Shopify consultant, agency owner, operations lead"
+              style={{
+                width: "100%",
+                padding: "12px 14px",
+                borderRadius: 12,
+                border: "1px solid var(--border)",
+                background: "var(--paper)",
+                fontSize: 14,
+                outline: "none",
+              }}
+            />
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }} className="skills-grid">
+            {tasks.map((t) => (
+              <div key={t} style={{ background: "white", border: "1px solid var(--border)", borderRadius: 14, padding: 14, fontSize: 14, color: "var(--ink)" }}>
+                {t}
+              </div>
+            ))}
+          </div>
+
+          <div style={{ marginTop: 24 }}>
+            <a
+              href="/onboard"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "10px 24px",
+                borderRadius: "var(--radius-pill)",
+                fontSize: 14,
+                fontWeight: 500,
+                textDecoration: "none",
+                background: "var(--ink)",
+                color: "var(--paper)",
+                border: "none",
+              }}
+            >
+              Get started for free
+            </a>
           </div>
         </div>
       </section>
