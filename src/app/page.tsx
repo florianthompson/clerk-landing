@@ -631,10 +631,15 @@ export default function Home() {
                 <tr>
                   <th style={{ textAlign: "left", padding: "14px 16px", borderBottom: "1px solid var(--border)", fontSize: 13, color: "var(--slate)" }}>Scenario</th>
                   <th style={{ textAlign: "left", padding: "14px 16px", borderBottom: "1px solid var(--border)", fontSize: 13, color: "var(--slate)" }}>
-                    <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                      <img src="https://cdn.simpleicons.org/openai/6B7280" alt="OpenAI" width="16" height="16" />
-                      <img src="https://cdn.simpleicons.org/anthropic/6B7280" alt="Anthropic" width="16" height="16" />
-                      ChatGPT / Claude
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                        <img src="https://cdn.simpleicons.org/openai/6B7280" alt="OpenAI" width="15" height="15" />
+                        OpenAI
+                      </span>
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                        <img src="https://cdn.simpleicons.org/anthropic/6B7280" alt="Claude" width="15" height="15" />
+                        Claude
+                      </span>
                     </span>
                   </th>
                   <th style={{ textAlign: "left", padding: "14px 16px", borderBottom: "1px solid var(--border)", fontSize: 13, color: "var(--slate)" }}>
