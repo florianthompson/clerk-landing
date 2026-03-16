@@ -8,6 +8,8 @@ import StepSuccess from "@/components/onboard/StepSuccess";
 import { WizardState, ProfileType } from "@/lib/types";
 import { getDefaultSkills } from "@/lib/skills";
 
+const DEMO_MODE = true;
+
 export default function OnboardPage() {
   const [state, setState] = useState<WizardState>({
     step: 0,
@@ -40,7 +42,16 @@ export default function OnboardPage() {
     }));
   }
 
-  async function handleProvision() {
+  async function handleLaunch() {
+    if (DEMO_MODE) {
+      update({
+        tenantId: "demo-tenant",
+        botUsername: "ClerkDemoBot",
+        step: 2,
+      });
+      return;
+    }
+
     setProvisioning(true);
     setError("");
 
@@ -108,7 +119,7 @@ export default function OnboardPage() {
         <StepSkills
           skills={state.skills}
           onToggle={toggleSkill}
-          onNext={handleProvision}
+          onNext={handleLaunch}
           onBack={() => update({ step: 0 })}
         />
       )}
