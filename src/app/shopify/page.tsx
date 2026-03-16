@@ -51,7 +51,7 @@ export default function ShopifyLanding() {
             maxWidth: 1000,
           }}
         >
-          Your Shopify AI <span style={{ color: "var(--sage)", textTransform: "capitalize" }}>{roles[idx]}</span>
+          Your Shopify <span style={{ color: "var(--sage)", textTransform: "capitalize" }}>{roles[idx]}</span>
         </h1>
 
         <p
