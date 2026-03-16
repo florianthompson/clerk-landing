@@ -5,7 +5,9 @@ REPO_URL="${REPO_URL:-https://github.com/florianthompson/clerk-connector.git}"
 INSTALL_DIR="${INSTALL_DIR:-$HOME/clerk-connector}"
 CONTROL_PLANE_URL="${CONTROL_PLANE_URL:-https://clerk-landing.vercel.app}"
 CONNECTOR_ID="${CONNECTOR_ID:-$(hostname | tr '[:upper:]' '[:lower:]')-connector}"
-CONNECTOR_TOKEN="${CONNECTOR_TOKEN:-}"
+# Token can come from env (CONNECTOR_TOKEN / CONNECTOR_SHARED_TOKEN)
+# or first script argument for one-liner usage: | bash -s -- <token>
+CONNECTOR_TOKEN="${CONNECTOR_TOKEN:-${CONNECTOR_SHARED_TOKEN:-${1:-}}}"
 
 echo "== Clerk Connector Setup =="
 
@@ -31,12 +33,10 @@ fi
 cd "$INSTALL_DIR"
 
 if [ -z "${CONNECTOR_TOKEN}" ]; then
-  echo
-  read -r -p "Enter CONNECTOR_SHARED_TOKEN (same value used on Clerk backend): " CONNECTOR_TOKEN
-fi
-
-if [ -z "${CONNECTOR_TOKEN}" ]; then
-  echo "ERROR: CONNECTOR_TOKEN is required"
+  echo "ERROR: CONNECTOR_TOKEN is required."
+  echo "Usage examples:"
+  echo "  CONNECTOR_TOKEN=your_token curl -fsSL https://clerk-landing.vercel.app/connect-connector.sh | bash"
+  echo "  curl -fsSL https://clerk-landing.vercel.app/connect-connector.sh | bash -s -- your_token"
   exit 1
 fi
 
