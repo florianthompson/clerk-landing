@@ -11,6 +11,7 @@ import { getDefaultSkills } from "@/lib/skills";
 
 const DEMO_MODE = false;
 const DEFAULT_BOT_USERNAME = "theai_11_bot";
+const DEFAULT_BOT_NAME = "Clerk | AI assistant";
 
 export default function OnboardPage() {
   const [state, setState] = useState<WizardState>({
@@ -20,7 +21,7 @@ export default function OnboardPage() {
     skills: [],
     botToken: "",
     botUsername: DEFAULT_BOT_USERNAME,
-    botName: "",
+    botName: DEFAULT_BOT_NAME,
     tenantId: null,
   });
 
@@ -129,6 +130,7 @@ export default function OnboardPage() {
       {state.step === 2 && (
         <StepTelegram
           botUsername={state.botUsername || DEFAULT_BOT_USERNAME}
+          botName={state.botName || DEFAULT_BOT_NAME}
           onNext={handleLaunch}
           onBack={() => update({ step: 1 })}
         />

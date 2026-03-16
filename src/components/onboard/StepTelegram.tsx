@@ -3,10 +3,12 @@ import PillButton from "@/components/ui/PillButton";
 
 export default function StepTelegram({
   botUsername,
+  botName,
   onNext,
   onBack,
 }: {
   botUsername: string;
+  botName: string;
   onNext: () => void;
   onBack: () => void;
 }) {
@@ -39,6 +41,7 @@ export default function StepTelegram({
         }}
       >
         <div style={{ fontSize: 12, color: "var(--slate)", marginBottom: 6 }}>Assigned bot</div>
+        <div style={{ fontSize: 16, fontWeight: 600, color: "var(--ink)", marginBottom: 4 }}>{botName}</div>
         <div style={{ fontSize: 18, fontWeight: 600, color: "var(--sage-dark)" }}>{handle}</div>
       </div>
 

@@ -80,7 +80,7 @@ export async function provisionTenant(opts: {
 
   const fixedToken = process.env.DEFAULT_TELEGRAM_BOT_TOKEN;
   const fixedUsername = (process.env.DEFAULT_TELEGRAM_BOT_USERNAME || "theai_11_bot").replace(/^@/, "");
-  const fixedName = process.env.DEFAULT_TELEGRAM_BOT_NAME || "Clerk Shared Bot";
+  const fixedName = process.env.DEFAULT_TELEGRAM_BOT_NAME || "Clerk | AI assistant";
 
   // Prefer single shared bot for all signups when env is set; fallback to bot pool.
   const bot = fixedToken
