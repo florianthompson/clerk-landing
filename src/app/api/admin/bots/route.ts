@@ -10,42 +10,64 @@ function checkAuth(req: NextRequest): boolean {
   return auth === `Bearer ${ADMIN_SECRET}`;
 }
 
-// POST /api/admin/bots — add a bot to the pool
+// POST /api/admin/bots — add one or many bots to the pool
+// Body: { token: "..." } or { tokens: ["...", "..."] }
 export async function POST(req: NextRequest) {
   if (!checkAuth(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    const { token } = await req.json();
+    const body = await req.json();
 
-    if (!token || typeof token !== "string") {
-      return NextResponse.json({ error: "Token is required" }, { status: 400 });
-    }
+    // Normalize to array
+    const tokens: string[] = body.tokens
+      ? body.tokens
+      : body.token
+        ? [body.token]
+        : [];
 
-    // Validate with Telegram
-    const result = await validateBotToken(token.trim());
-    if (!result.valid) {
+    if (tokens.length === 0) {
       return NextResponse.json(
-        { error: result.error || "Invalid bot token" },
+        { error: "Provide 'token' (string) or 'tokens' (array)" },
         { status: 400 }
       );
     }
 
-    // Insert into pool
-    const db = getDb();
-    db.prepare(
-      "INSERT OR IGNORE INTO bots (token, username, name) VALUES (?, ?, ?)"
-    ).run(token.trim(), result.botUsername, result.botName);
+    // Validate all tokens in parallel
+    const results = await Promise.all(
+      tokens.map(async (t: string) => {
+        const trimmed = t.trim();
+        const result = await validateBotToken(trimmed);
+        return { token: trimmed, ...result };
+      })
+    );
 
-    return NextResponse.json({
-      ok: true,
-      username: result.botUsername,
-      name: result.botName,
-    });
+    const db = getDb();
+    const insert = db.prepare(
+      "INSERT OR IGNORE INTO bots (token, username, name) VALUES (?, ?, ?)"
+    );
+
+    const added: { username: string; name: string }[] = [];
+    const failed: { token: string; error: string }[] = [];
+
+    for (const r of results) {
+      if (r.valid && r.botUsername && r.botName) {
+        insert.run(r.token, r.botUsername, r.botName);
+        added.push({ username: r.botUsername, name: r.botName });
+      } else {
+        // Show first/last 4 chars only
+        const masked = r.token.length > 8
+          ? `${r.token.slice(0, 4)}...${r.token.slice(-4)}`
+          : "****";
+        failed.push({ token: masked, error: r.error || "Invalid token" });
+      }
+    }
+
+    return NextResponse.json({ added, failed });
   } catch (err) {
     console.error("Add bot error:", err);
-    return NextResponse.json({ error: "Failed to add bot" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to add bots" }, { status: 500 });
   }
 }
 
