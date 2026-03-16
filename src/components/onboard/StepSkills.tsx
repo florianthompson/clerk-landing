@@ -48,7 +48,7 @@ export default function StepSkills({
           Back
         </PillButton>
         <PillButton onClick={onNext} disabled={skills.length === 0} style={{ flex: 2 }}>
-          Continue
+          Launch my Clerk
         </PillButton>
       </div>
     </div>

@@ -73,11 +73,20 @@ ${skill.description}
 
 export async function provisionTenant(opts: {
   name: string;
-  botToken: string;
-  botUsername: string;
   profileType: ProfileType;
   skills: string[];
 }): Promise<{ tenantId: string; botUsername: string; botLink: string }> {
+  const db = getDb();
+
+  // Claim an available bot from the pool
+  const bot = db
+    .prepare("SELECT * FROM bots WHERE assigned_to IS NULL LIMIT 1")
+    .get() as { id: number; token: string; username: string; name: string } | undefined;
+
+  if (!bot) {
+    throw new Error("No bots available. Please try again later.");
+  }
+
   const tenantId = uuidv4();
   const instanceDir = path.join(INSTANCES_DIR, tenantId);
 
@@ -94,8 +103,8 @@ export async function provisionTenant(opts: {
     skills: opts.skills,
     channels: {
       telegram: {
-        bot_token: opts.botToken,
-        bot_username: opts.botUsername,
+        bot_token: bot.token,
+        bot_username: bot.username,
       },
     },
     created_at: new Date().toISOString(),
@@ -122,26 +131,30 @@ export async function provisionTenant(opts: {
     }
   }
 
-  // Insert into database
-  const db = getDb();
-  db.prepare(
-    `INSERT INTO tenants (id, name, telegram_bot_token, telegram_bot_username, profile_type, skills)
-     VALUES (?, ?, ?, ?, ?, ?)`
-  ).run(
-    tenantId,
-    opts.name,
-    opts.botToken,
-    opts.botUsername,
-    opts.profileType,
-    JSON.stringify(opts.skills)
-  );
+  // Insert tenant and assign bot (transactional)
+  const insertTenant = db.transaction(() => {
+    db.prepare(
+      `INSERT INTO tenants (id, name, telegram_bot_token, telegram_bot_username, profile_type, skills)
+       VALUES (?, ?, ?, ?, ?, ?)`
+    ).run(
+      tenantId,
+      opts.name,
+      bot.token,
+      bot.username,
+      opts.profileType,
+      JSON.stringify(opts.skills)
+    );
+
+    db.prepare("UPDATE bots SET assigned_to = ? WHERE id = ?").run(tenantId, bot.id);
+  });
+  insertTenant();
 
   // Set Telegram webhook
-  await setWebhook(opts.botToken, tenantId);
+  await setWebhook(bot.token, tenantId);
 
   return {
     tenantId,
-    botUsername: opts.botUsername,
-    botLink: `https://t.me/${opts.botUsername}`,
+    botUsername: bot.username,
+    botLink: `https://t.me/${bot.username}`,
   };
 }

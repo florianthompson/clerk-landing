@@ -1,6 +1,6 @@
 import React from "react";
 
-const STEPS = ["Profile", "Skills", "Telegram", "Launch"];
+const STEPS = ["Profile", "Skills", "Launch"];
 
 export default function StepIndicator({ current }: { current: number }) {
   return (

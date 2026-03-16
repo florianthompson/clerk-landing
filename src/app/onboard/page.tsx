@@ -4,7 +4,6 @@ import { useState } from "react";
 import StepIndicator from "@/components/onboard/StepIndicator";
 import StepProfile from "@/components/onboard/StepProfile";
 import StepSkills from "@/components/onboard/StepSkills";
-import StepTelegram from "@/components/onboard/StepTelegram";
 import StepSuccess from "@/components/onboard/StepSuccess";
 import { WizardState, ProfileType } from "@/lib/types";
 import { getDefaultSkills } from "@/lib/skills";
@@ -51,8 +50,6 @@ export default function OnboardPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: state.name,
-          botToken: state.botToken,
-          botUsername: state.botUsername,
           profileType: state.profileType,
           skills: state.skills,
         }),
@@ -61,7 +58,11 @@ export default function OnboardPage() {
       const data = await res.json();
 
       if (res.ok) {
-        update({ tenantId: data.tenantId, step: 3 });
+        update({
+          tenantId: data.tenantId,
+          botUsername: data.botUsername,
+          step: 2,
+        });
       } else {
         setError(data.error || "Provisioning failed");
       }
@@ -107,23 +108,12 @@ export default function OnboardPage() {
         <StepSkills
           skills={state.skills}
           onToggle={toggleSkill}
-          onNext={() => update({ step: 2 })}
+          onNext={handleProvision}
           onBack={() => update({ step: 0 })}
         />
       )}
 
-      {state.step === 2 && (
-        <StepTelegram
-          botToken={state.botToken}
-          botUsername={state.botUsername}
-          onTokenChange={(botToken) => update({ botToken })}
-          onValidated={(botUsername, botName) => update({ botUsername, botName })}
-          onNext={handleProvision}
-          onBack={() => update({ step: 1 })}
-        />
-      )}
-
-      {state.step === 3 && state.tenantId && (
+      {state.step === 2 && state.tenantId && (
         <StepSuccess
           botUsername={state.botUsername}
           tenantId={state.tenantId}
