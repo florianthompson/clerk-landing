@@ -9,6 +9,20 @@ export default function Home() {
   const [personalContext, setPersonalContext] = useState("");
   const [tasks, setTasks] = useState<string[]>([]);
 
+  const rolePresets = [
+    { label: "Agency owner", mode: "professional" as const, value: "agency owner" },
+    { label: "Shopify founder", mode: "professional" as const, value: "Shopify founder" },
+    { label: "Busy parent", mode: "personal" as const, value: "family planning" },
+    { label: "Freelancer", mode: "professional" as const, value: "freelancer" },
+  ];
+
+  function applyPreset(preset: { mode: "personal" | "professional"; value: string }) {
+    setMode(preset.mode);
+    if (preset.mode === "professional") setJob(preset.value);
+    else setPersonalContext(preset.value);
+    setTasks([]);
+  }
+
   function generateTasks() {
     if (mode === "personal") {
       const context = personalContext.trim() || "daily life";
@@ -426,6 +440,24 @@ export default function Home() {
         </div>
       </section>
 
+      {/* OUTCOMES */}
+      <section style={{ padding: "64px 32px", background: "var(--warm)" }}>
+        <div style={{ maxWidth: 980, margin: "0 auto" }}>
+          <div className="skills-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+            {[
+              { title: "Save 5+ hours / week", text: "Clerk handles repeat admin work while you focus on real priorities." },
+              { title: "Inbox to action", text: "Emails become drafted replies, reminders, and follow-ups automatically." },
+              { title: "Execution, not suggestions", text: "Not just advice. Tasks get completed end-to-end." },
+            ].map((x) => (
+              <div key={x.title} style={{ background: "white", border: "1px solid var(--border)", borderRadius: 14, padding: 16 }}>
+                <div style={{ fontWeight: 600, marginBottom: 6 }}>{x.title}</div>
+                <div style={{ color: "var(--slate)", fontSize: 14, lineHeight: 1.6 }}>{x.text}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* WHAT CAN IT DO */}
       <section style={{ padding: "96px 32px", background: "var(--paper)" }}>
         <div style={{ maxWidth: 920, margin: "0 auto" }}>
@@ -456,9 +488,9 @@ export default function Home() {
             Think of Clerk like your reliable friend who handles the repetitive stuff so you can focus on what actually matters.
           </p>
 
-          <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
+          <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
             <button
-              onClick={() => setMode("personal")}
+              onClick={() => { setMode("personal"); setTasks([]); }}
               style={{
                 padding: "10px 16px",
                 borderRadius: "999px",
@@ -472,7 +504,7 @@ export default function Home() {
               Personal
             </button>
             <button
-              onClick={() => setMode("professional")}
+              onClick={() => { setMode("professional"); setTasks([]); }}
               style={{
                 padding: "10px 16px",
                 borderRadius: "999px",
@@ -485,6 +517,26 @@ export default function Home() {
             >
               Professional
             </button>
+          </div>
+
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
+            {rolePresets.map((p) => (
+              <button
+                key={p.label}
+                onClick={() => applyPreset(p)}
+                style={{
+                  padding: "6px 12px",
+                  borderRadius: "999px",
+                  border: "1px solid var(--border)",
+                  background: "white",
+                  color: "var(--slate)",
+                  fontSize: 13,
+                  cursor: "pointer",
+                }}
+              >
+                {p.label}
+              </button>
+            ))}
           </div>
 
           <div
@@ -569,6 +621,27 @@ export default function Home() {
             >
               Get started for free
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* FIRST 24 HOURS */}
+      <section style={{ padding: "84px 32px", background: "var(--paper)" }}>
+        <div style={{ maxWidth: 980, margin: "0 auto" }}>
+          <p style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--sage)", fontWeight: 600, marginBottom: 12 }}>
+            Your first 24 hours
+          </p>
+          <div className="skills-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+            {[
+              { t: "Hour 1", d: "Connect your channels and choose your priority tasks." },
+              { t: "Hour 2", d: "Clerk drafts messages, plans follow-ups, and queues actions." },
+              { t: "Day 1", d: "You get a completed-actions summary with what was done." },
+            ].map((x) => (
+              <div key={x.t} style={{ background: "white", border: "1px solid var(--border)", borderRadius: 14, padding: 16 }}>
+                <div style={{ fontWeight: 600, marginBottom: 6 }}>{x.t}</div>
+                <div style={{ color: "var(--slate)", fontSize: 14, lineHeight: 1.6 }}>{x.d}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
