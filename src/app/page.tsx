@@ -95,21 +95,45 @@ export default function Home() {
               background: "white",
               border: "1px solid var(--border)",
               borderRadius: 16,
-              padding: 14,
+              padding: 0,
               textAlign: "left",
+              overflow: "hidden",
             }}
           >
-            <div style={{ fontSize: 12, color: "var(--slate)", marginBottom: 8 }}>Live task dashboard</div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 8 }}>
-              {[
-                "✅ Website developed",
-                "✅ Flights booked",
-                "✅ Presentation finished",
-              ].map((t) => (
-                <div key={t} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: "10px 12px", fontSize: 14, color: "var(--ink)", background: "#fff" }}>
-                  {t}
+            <div style={{ padding: "10px 14px", borderBottom: "1px solid var(--border)", fontSize: 12, color: "var(--slate)", background: "#fcfcfb" }}>
+              Clerk Dashboard Preview
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "180px 1fr", minHeight: 220 }}>
+              <div style={{ borderRight: "1px solid var(--border)", background: "#fbfbf8", padding: 12 }}>
+                <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 10 }}>Workspace</div>
+                {[
+                  "Overview",
+                  "Tasks",
+                  "Messages",
+                  "Automations",
+                ].map((n, i) => (
+                  <div key={n} style={{ padding: "8px 10px", borderRadius: 8, fontSize: 13, color: i === 1 ? "var(--ink)" : "var(--slate)", background: i === 1 ? "white" : "transparent", border: i === 1 ? "1px solid var(--border)" : "none", marginBottom: 6 }}>
+                    {n}
+                  </div>
+                ))}
+              </div>
+              <div style={{ padding: 12 }}>
+                <div style={{ fontSize: 13, color: "var(--slate)", marginBottom: 8 }}>Today’s completed tasks</div>
+                <div style={{ display: "grid", gap: 8 }}>
+                  {[
+                    ["Website developed", "10:14"],
+                    ["Flights booked", "10:42"],
+                    ["Presentation finished", "11:07"],
+                  ].map(([t, time]) => (
+                    <div key={String(t)} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: "10px 12px", display: "flex", justifyContent: "space-between", alignItems: "center", background: "#fff" }}>
+                      <span style={{ fontSize: 14, color: "var(--ink)", display: "inline-flex", alignItems: "center", gap: 8 }}>
+                        <span style={{ color: "var(--sage)", fontWeight: 700 }}>✓</span>{t}
+                      </span>
+                      <span style={{ fontSize: 12, color: "var(--slate)" }}>{time}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
 
