@@ -606,6 +606,69 @@ export default function Home() {
         </div>
       </section>
 
+      {/* COMPARISON */}
+      <section style={{ padding: "92px 32px", background: "var(--paper)" }}>
+        <div style={{ maxWidth: 980, margin: "0 auto" }}>
+          <p
+            style={{
+              fontSize: 12,
+              textTransform: "uppercase",
+              letterSpacing: "0.12em",
+              color: "var(--sage)",
+              fontWeight: 600,
+              marginBottom: 12,
+            }}
+          >
+            Why Clerk
+          </p>
+          <h3 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 400, marginBottom: 18 }}>
+            Answers are nice. Completed tasks are better.
+          </h3>
+
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "separate", borderSpacing: 0, background: "white", border: "1px solid var(--border)", borderRadius: 16, overflow: "hidden" }}>
+              <thead>
+                <tr>
+                  <th style={{ textAlign: "left", padding: "14px 16px", borderBottom: "1px solid var(--border)", fontSize: 13, color: "var(--slate)" }}>Scenario</th>
+                  <th style={{ textAlign: "left", padding: "14px 16px", borderBottom: "1px solid var(--border)", fontSize: 13, color: "var(--slate)" }}>ChatGPT / Claude</th>
+                  <th style={{ textAlign: "left", padding: "14px 16px", borderBottom: "1px solid var(--border)", fontSize: 13, color: "var(--slate)" }}>Clerk</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  {
+                    s: "Inbox cleanup",
+                    a: '“Here are 10 things to do.”',
+                    c: '“I triaged your inbox, drafted replies, and queued follow-ups.”',
+                  },
+                  {
+                    s: "Calendar planning",
+                    a: '“Try this schedule.”',
+                    c: '“I scheduled it, added reminders, and resolved overlaps.”',
+                  },
+                  {
+                    s: "Lead outreach",
+                    a: '“Use this template.”',
+                    c: '“I personalized messages and sent the first batch.”',
+                  },
+                  {
+                    s: "Ops workflow",
+                    a: '“Here is a checklist.”',
+                    c: '“I generated the runbook and executed the repeatable steps.”',
+                  },
+                ].map((r, i) => (
+                  <tr key={r.s}>
+                    <td style={{ padding: "14px 16px", borderBottom: i < 3 ? "1px solid var(--border)" : "none", fontWeight: 600 }}>{r.s}</td>
+                    <td style={{ padding: "14px 16px", borderBottom: i < 3 ? "1px solid var(--border)" : "none", color: "var(--slate)" }}>{r.a}</td>
+                    <td style={{ padding: "14px 16px", borderBottom: i < 3 ? "1px solid var(--border)" : "none", color: "var(--ink)" }}>{r.c}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       {/* HOW IT WORKS */}
       <section
         id="how"
