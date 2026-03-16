@@ -442,11 +442,14 @@ export default function Home() {
               fontSize: "clamp(30px, 4.2vw, 46px)",
               fontWeight: 400,
               letterSpacing: "-0.02em",
-              marginBottom: 18,
+              marginBottom: 10,
             }}
           >
-            One AI assistant, tailored to your life or work
+            The AI that replaces your tasks, not your job
           </h2>
+          <p style={{ fontSize: 16, color: "var(--slate)", lineHeight: 1.65, marginBottom: 18 }}>
+            Think of Clerk like your reliable friend who handles the repetitive stuff so you can focus on what actually matters.
+          </p>
 
           <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
             <button
@@ -479,32 +482,54 @@ export default function Home() {
             </button>
           </div>
 
-          <div
-            style={{
-              background: "var(--warm)",
-              border: "1px solid var(--border)",
-              borderRadius: "var(--radius)",
-              padding: 18,
-              marginBottom: 18,
-            }}
-          >
-            <label style={{ fontSize: 13, color: "var(--slate)", display: "block", marginBottom: 8 }}>
-              What do you do for work?
-            </label>
-            <input
-              value={job}
-              onChange={(e) => setJob(e.target.value)}
-              placeholder="e.g. Shopify consultant, agency owner, operations lead"
+          {mode === "professional" && (
+            <div
               style={{
-                width: "100%",
-                padding: "12px 14px",
-                borderRadius: 12,
+                background: "var(--warm)",
                 border: "1px solid var(--border)",
-                background: "var(--paper)",
-                fontSize: 14,
-                outline: "none",
+                borderRadius: "var(--radius)",
+                padding: 18,
+                marginBottom: 18,
               }}
-            />
+            >
+              <label style={{ fontSize: 13, color: "var(--slate)", display: "block", marginBottom: 8 }}>
+                What do you do for work?
+              </label>
+              <input
+                value={job}
+                onChange={(e) => setJob(e.target.value)}
+                placeholder="e.g. Shopify consultant, agency owner, operations lead"
+                style={{
+                  width: "100%",
+                  padding: "12px 14px",
+                  borderRadius: 12,
+                  border: "1px solid var(--border)",
+                  background: "var(--paper)",
+                  fontSize: 14,
+                  outline: "none",
+                }}
+              />
+            </div>
+          )}
+
+          <div style={{ marginBottom: 14 }}>
+            <button
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "10px 18px",
+                borderRadius: "999px",
+                fontSize: 14,
+                fontWeight: 600,
+                background: "var(--sage)",
+                color: "white",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              Find tasks
+            </button>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }} className="skills-grid">
