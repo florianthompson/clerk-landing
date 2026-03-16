@@ -213,22 +213,22 @@ export default function Home() {
             animation: "fadeUp 0.8s ease 0.1s both",
           }}
         >
-          Your personal AI <em style={{ fontStyle: "normal", color: "var(--sage)" }}>clerk</em>
+          The AI that <em style={{ fontStyle: "normal", color: "var(--sage)" }}>does the work</em>, not just the answers
         </h1>
 
         <p
           style={{
             fontSize: 18,
             color: "var(--slate)",
-            maxWidth: 480,
+            maxWidth: 560,
             margin: "24px auto 40px",
             lineHeight: 1.7,
             fontWeight: 300,
             animation: "fadeUp 0.8s ease 0.2s both",
           }}
         >
-          An AI assistant that actually does things for you. Manages your emails, plans your week,
-          runs your store. Just text it like a friend.
+          Most AI tools give suggestions. Clerk executes. It drafts messages, handles follow-ups,
+          plans your week, and closes repetitive tasks so your day actually moves forward.
         </p>
 
         <div
