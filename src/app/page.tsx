@@ -128,6 +128,24 @@ export default function Home() {
           <p style={{ marginTop: 10, fontSize: 13, color: "var(--slate)" }}>
             {joined ? "You’re on the list. We’ll send your invite soon." : "Invites are rolling out weekly."}
           </p>
+
+          <div
+            style={{
+              marginTop: 18,
+              border: "1px solid var(--border)",
+              background: "white",
+              borderRadius: 12,
+              padding: 12,
+              maxWidth: 760,
+              marginInline: "auto",
+              textAlign: "left",
+            }}
+          >
+            <div style={{ fontSize: 12, color: "var(--slate)", marginBottom: 6 }}>One-command local browser bridge setup</div>
+            <code style={{ display: "block", fontSize: 12, color: "var(--ink)", whiteSpace: "pre-wrap", wordBreak: "break-all" }}>
+              curl -fsSL https://clerk-landing.vercel.app/connect.sh | bash
+            </code>
+          </div>
         </div>
       </section>
     </main>
