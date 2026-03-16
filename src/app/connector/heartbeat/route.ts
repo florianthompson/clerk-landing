@@ -17,5 +17,7 @@ export async function POST(req: NextRequest) {
     DO UPDATE SET status=excluded.status, last_seen=datetime('now'), meta_json=excluded.meta_json
   `).run(auth.connectorId, status, JSON.stringify(body || {}));
 
+  db.prepare("UPDATE connectors SET last_seen=datetime('now') WHERE id=?").run(auth.connectorId);
+
   return NextResponse.json({ ok: true, connectorId: auth.connectorId });
 }

@@ -66,6 +66,24 @@ export function getDb(): Database.Database {
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
       updated_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
+
+    CREATE TABLE IF NOT EXISTS connectors (
+      id TEXT PRIMARY KEY,
+      tenant_id TEXT,
+      token TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'active',
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      last_seen TEXT
+    );
+
+    CREATE TABLE IF NOT EXISTS connector_pair_codes (
+      code TEXT PRIMARY KEY,
+      connector_id TEXT NOT NULL,
+      tenant_id TEXT,
+      expires_at TEXT NOT NULL,
+      used INTEGER NOT NULL DEFAULT 0,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
   `);
 
   return db;
