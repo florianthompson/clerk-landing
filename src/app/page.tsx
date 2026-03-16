@@ -55,8 +55,35 @@ export default function Home() {
               lineHeight: 1.7,
             }}
           >
-            Don’t ask for instructions. Tell Clerk what you need done.
+            Don’t ask for instructions. Tell Clerk the outcome you want.
           </p>
+
+          <div
+            style={{
+              maxWidth: 760,
+              margin: "0 auto 20px",
+              background: "white",
+              border: "1px solid var(--border)",
+              borderRadius: 14,
+              padding: 14,
+              textAlign: "left",
+            }}
+          >
+            <div style={{ fontSize: 12, color: "var(--slate)", marginBottom: 10 }}>Prompt vs Outcome</div>
+            <div style={{ display: "grid", gap: 8 }}>
+              {[
+                ["How to get more customers", "Get more customers"],
+                ["How to build a website", "Build a website"],
+                ["How to run outreach", "Run outreach and follow-ups"],
+              ].map(([a, b]) => (
+                <div key={a} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 10, display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: 8, alignItems: "center" }}>
+                  <div style={{ color: "var(--slate)", fontSize: 14 }}>"{a}"</div>
+                  <div style={{ color: "var(--sage)", fontWeight: 700 }}>→</div>
+                  <div style={{ color: "var(--ink)", fontSize: 14, fontWeight: 600 }}>"{b}"</div>
+                </div>
+              ))}
+            </div>
+          </div>
 
           <form
             onSubmit={(e) => {
