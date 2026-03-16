@@ -78,13 +78,19 @@ export async function provisionTenant(opts: {
 }): Promise<{ tenantId: string; botUsername: string; botLink: string }> {
   const db = getDb();
 
-  // Claim an available bot from the pool
-  const bot = db
-    .prepare("SELECT * FROM bots WHERE assigned_to IS NULL LIMIT 1")
-    .get() as { id: number; token: string; username: string; name: string } | undefined;
+  const fixedToken = process.env.DEFAULT_TELEGRAM_BOT_TOKEN;
+  const fixedUsername = (process.env.DEFAULT_TELEGRAM_BOT_USERNAME || "theai_11_bot").replace(/^@/, "");
+  const fixedName = process.env.DEFAULT_TELEGRAM_BOT_NAME || "Clerk Shared Bot";
+
+  // Prefer single shared bot for all signups when env is set; fallback to bot pool.
+  const bot = fixedToken
+    ? { id: null as number | null, token: fixedToken, username: fixedUsername, name: fixedName }
+    : (db
+        .prepare("SELECT * FROM bots WHERE assigned_to IS NULL LIMIT 1")
+        .get() as { id: number; token: string; username: string; name: string } | undefined);
 
   if (!bot) {
-    throw new Error("No bots available. Please try again later.");
+    throw new Error("No bot configured. Set DEFAULT_TELEGRAM_BOT_TOKEN or add bots to pool.");
   }
 
   const tenantId = uuidv4();
@@ -145,7 +151,9 @@ export async function provisionTenant(opts: {
       JSON.stringify(opts.skills)
     );
 
-    db.prepare("UPDATE bots SET assigned_to = ? WHERE id = ?").run(tenantId, bot.id);
+    if (bot.id) {
+      db.prepare("UPDATE bots SET assigned_to = ? WHERE id = ?").run(tenantId, bot.id);
+    }
   });
   insertTenant();
 

@@ -5,10 +5,12 @@ import StepIndicator from "@/components/onboard/StepIndicator";
 import StepProfile from "@/components/onboard/StepProfile";
 import StepSkills from "@/components/onboard/StepSkills";
 import StepSuccess from "@/components/onboard/StepSuccess";
+import StepTelegram from "@/components/onboard/StepTelegram";
 import { WizardState, ProfileType } from "@/lib/types";
 import { getDefaultSkills } from "@/lib/skills";
 
-const DEMO_MODE = true;
+const DEMO_MODE = false;
+const DEFAULT_BOT_USERNAME = "theai_11_bot";
 
 export default function OnboardPage() {
   const [state, setState] = useState<WizardState>({
@@ -17,7 +19,7 @@ export default function OnboardPage() {
     profileType: null,
     skills: [],
     botToken: "",
-    botUsername: "",
+    botUsername: DEFAULT_BOT_USERNAME,
     botName: "",
     tenantId: null,
   });
@@ -46,8 +48,8 @@ export default function OnboardPage() {
     if (DEMO_MODE) {
       update({
         tenantId: "demo-tenant",
-        botUsername: "ClerkDemoBot",
-        step: 2,
+        botUsername: DEFAULT_BOT_USERNAME,
+        step: 3,
       });
       return;
     }
@@ -72,7 +74,7 @@ export default function OnboardPage() {
         update({
           tenantId: data.tenantId,
           botUsername: data.botUsername,
-          step: 2,
+          step: 3,
         });
       } else {
         setError(data.error || "Provisioning failed");
@@ -119,12 +121,20 @@ export default function OnboardPage() {
         <StepSkills
           skills={state.skills}
           onToggle={toggleSkill}
-          onNext={handleLaunch}
+          onNext={() => update({ step: 2 })}
           onBack={() => update({ step: 0 })}
         />
       )}
 
-      {state.step === 2 && state.tenantId && (
+      {state.step === 2 && (
+        <StepTelegram
+          botUsername={state.botUsername || DEFAULT_BOT_USERNAME}
+          onNext={handleLaunch}
+          onBack={() => update({ step: 1 })}
+        />
+      )}
+
+      {state.step === 3 && state.tenantId && (
         <StepSuccess
           botUsername={state.botUsername}
           tenantId={state.tenantId}

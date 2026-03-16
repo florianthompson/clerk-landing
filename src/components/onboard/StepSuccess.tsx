@@ -8,7 +8,8 @@ export default function StepSuccess({
   botUsername: string;
   tenantId: string;
 }) {
-  const botLink = `https://t.me/${botUsername}`;
+  const cleanUsername = botUsername.replace(/^@/, "");
+  const botLink = `https://t.me/${cleanUsername}`;
 
   return (
     <div style={{ maxWidth: 480, margin: "0 auto", textAlign: "center", animation: "fadeUp 0.5s ease both" }}>
