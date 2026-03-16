@@ -1,29 +1,34 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import LiveFeed from "@/components/LiveFeed";
 
 export default function Home() {
   const [mode, setMode] = useState<"personal" | "professional">("personal");
   const [job, setJob] = useState("");
+  const [personalContext, setPersonalContext] = useState("");
+  const [tasks, setTasks] = useState<string[]>([]);
 
-  const tasks = useMemo(() => {
+  function generateTasks() {
     if (mode === "personal") {
-      return [
-        "Plan your week and prioritize appointments",
-        "Draft and send emails/messages for you",
-        "Create reminders and follow-ups automatically",
-        "Research purchases, compare options, summarize",
-      ];
+      const context = personalContext.trim() || "daily life";
+      setTasks([
+        `Plan your week around ${context}`,
+        `Draft messages and reminders for ${context}`,
+        `Build a simple checklist to stay on top of ${context}`,
+        `Find faster/cheaper options related to ${context}`,
+      ]);
+      return;
     }
+
     const role = job.trim() || "your role";
-    return [
+    setTasks([
       `Break down ${role} work into daily action tasks`,
-      "Handle inbox triage and draft client replies",
-      "Generate SOPs, checklists, and execution scripts",
-      "Track open tasks and send proactive follow-ups",
-    ];
-  }, [mode, job]);
+      `Draft replies and follow-ups for ${role}`,
+      `Create SOPs/checklists for repeated ${role} workflows`,
+      `Track open ${role} tasks and nudge what needs action`,
+    ]);
+  }
 
   return (
     <>
@@ -482,38 +487,41 @@ export default function Home() {
             </button>
           </div>
 
-          {mode === "professional" && (
-            <div
+          <div
+            style={{
+              background: "var(--warm)",
+              border: "1px solid var(--border)",
+              borderRadius: "var(--radius)",
+              padding: 18,
+              marginBottom: 18,
+            }}
+          >
+            <label style={{ fontSize: 13, color: "var(--slate)", display: "block", marginBottom: 8 }}>
+              {mode === "professional" ? "What do you do for work?" : "What do you want help with personally?"}
+            </label>
+            <input
+              value={mode === "professional" ? job : personalContext}
+              onChange={(e) => (mode === "professional" ? setJob(e.target.value) : setPersonalContext(e.target.value))}
+              placeholder={
+                mode === "professional"
+                  ? "e.g. Shopify consultant, agency owner, operations lead"
+                  : "e.g. family planning, travel, budget, inbox"
+              }
               style={{
-                background: "var(--warm)",
+                width: "100%",
+                padding: "12px 14px",
+                borderRadius: 12,
                 border: "1px solid var(--border)",
-                borderRadius: "var(--radius)",
-                padding: 18,
-                marginBottom: 18,
+                background: "var(--paper)",
+                fontSize: 14,
+                outline: "none",
               }}
-            >
-              <label style={{ fontSize: 13, color: "var(--slate)", display: "block", marginBottom: 8 }}>
-                What do you do for work?
-              </label>
-              <input
-                value={job}
-                onChange={(e) => setJob(e.target.value)}
-                placeholder="e.g. Shopify consultant, agency owner, operations lead"
-                style={{
-                  width: "100%",
-                  padding: "12px 14px",
-                  borderRadius: 12,
-                  border: "1px solid var(--border)",
-                  background: "var(--paper)",
-                  fontSize: 14,
-                  outline: "none",
-                }}
-              />
-            </div>
-          )}
+            />
+          </div>
 
           <div style={{ marginBottom: 14 }}>
             <button
+              onClick={generateTasks}
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -532,13 +540,15 @@ export default function Home() {
             </button>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }} className="skills-grid">
-            {tasks.map((t) => (
-              <div key={t} style={{ background: "white", border: "1px solid var(--border)", borderRadius: 14, padding: 14, fontSize: 14, color: "var(--ink)" }}>
-                {t}
-              </div>
-            ))}
-          </div>
+          {tasks.length > 0 && (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }} className="skills-grid">
+              {tasks.map((t) => (
+                <div key={t} style={{ background: "white", border: "1px solid var(--border)", borderRadius: 14, padding: 14, fontSize: 14, color: "var(--ink)" }}>
+                  {t}
+                </div>
+              ))}
+            </div>
+          )}
 
           <div style={{ marginTop: 24 }}>
             <a
@@ -559,6 +569,39 @@ export default function Home() {
             >
               Get started for free
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section style={{ padding: "84px 32px", background: "var(--warm)" }}>
+        <div style={{ maxWidth: 980, margin: "0 auto" }}>
+          <p
+            style={{
+              fontSize: 12,
+              textTransform: "uppercase",
+              letterSpacing: "0.12em",
+              color: "var(--sage)",
+              fontWeight: 600,
+              marginBottom: 14,
+            }}
+          >
+            Loved by early users
+          </p>
+          <h3 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 400, marginBottom: 22 }}>
+            Feels like texting a friend who actually gets things done
+          </h3>
+          <div className="skills-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            {[
+              '“Saved me $280 finding cheaper flights in 3 minutes.” — Maya',
+              '“It turned my messy inbox into a clean task list every morning.” — Tom',
+              '“I used it to prep client follow-ups while I was commuting.” — Lena',
+              '“Feels like having an ops assistant in my pocket.” — Aaron',
+            ].map((q) => (
+              <div key={q} style={{ background: "white", border: "1px solid var(--border)", borderRadius: 14, padding: 16, fontSize: 14, color: "var(--ink)", lineHeight: 1.6 }}>
+                {q}
+              </div>
+            ))}
           </div>
         </div>
       </section>
