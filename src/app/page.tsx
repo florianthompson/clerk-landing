@@ -69,7 +69,7 @@ export default function Home() {
               gridTemplateColumns: "1fr 1fr",
               gap: 12,
               maxWidth: 860,
-              margin: "0 auto 26px",
+              margin: "0 auto 20px",
             }}
             className="skills-grid"
           >
@@ -85,6 +85,31 @@ export default function Home() {
                 <span style={{ color: "var(--sage)", fontWeight: 700 }}>✓</span>
                 <span>“{comparisons[idx].does}”</span>
               </div>
+            </div>
+          </div>
+
+          <div
+            style={{
+              maxWidth: 860,
+              margin: "0 auto 18px",
+              background: "white",
+              border: "1px solid var(--border)",
+              borderRadius: 16,
+              padding: 14,
+              textAlign: "left",
+            }}
+          >
+            <div style={{ fontSize: 12, color: "var(--slate)", marginBottom: 8 }}>Live task dashboard</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 8 }}>
+              {[
+                "✅ Website developed",
+                "✅ Flights booked",
+                "✅ Presentation finished",
+              ].map((t) => (
+                <div key={t} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: "10px 12px", fontSize: 14, color: "var(--ink)", background: "#fff" }}>
+                  {t}
+                </div>
+              ))}
             </div>
           </div>
 
