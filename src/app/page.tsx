@@ -41,9 +41,8 @@ export default function Home() {
               marginBottom: 16,
             }}
           >
-            The AI that <span style={{ color: "var(--sage)" }}>does the work</span>,
-            <br />
-            not just the answers.
+            From <span style={{ color: "var(--sage)" }}>how-to</span> to{" "}
+            <span style={{ color: "var(--sage)" }}>done</span>.
           </h1>
 
           <p
@@ -55,35 +54,8 @@ export default function Home() {
               lineHeight: 1.7,
             }}
           >
-            Don’t ask for instructions. Tell Clerk the outcome you want.
+            Stop asking for instructions. Tell Clerk what you want and it gets done.
           </p>
-
-          <div
-            style={{
-              maxWidth: 760,
-              margin: "0 auto 20px",
-              background: "white",
-              border: "1px solid var(--border)",
-              borderRadius: 14,
-              padding: 14,
-              textAlign: "left",
-            }}
-          >
-            <div style={{ fontSize: 12, color: "var(--slate)", marginBottom: 10 }}>Prompt vs Outcome</div>
-            <div style={{ display: "grid", gap: 8 }}>
-              {[
-                ["How to get more customers", "Get more customers"],
-                ["How to build a website", "Build a website"],
-                ["How to run outreach", "Run outreach and follow-ups"],
-              ].map(([a, b]) => (
-                <div key={a} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 10, display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: 8, alignItems: "center" }}>
-                  <div style={{ color: "var(--slate)", fontSize: 14 }}>"{a}"</div>
-                  <div style={{ color: "var(--sage)", fontWeight: 700 }}>→</div>
-                  <div style={{ color: "var(--ink)", fontSize: 14, fontWeight: 600 }}>"{b}"</div>
-                </div>
-              ))}
-            </div>
-          </div>
 
           <form
             onSubmit={(e) => {
@@ -129,23 +101,6 @@ export default function Home() {
             {joined ? "You’re on the list. We’ll send your invite soon." : "Invites are rolling out weekly."}
           </p>
 
-          <div
-            style={{
-              marginTop: 18,
-              border: "1px solid var(--border)",
-              background: "white",
-              borderRadius: 12,
-              padding: 12,
-              maxWidth: 760,
-              marginInline: "auto",
-              textAlign: "left",
-            }}
-          >
-            <div style={{ fontSize: 12, color: "var(--slate)", marginBottom: 6 }}>One-command local browser bridge setup</div>
-            <code style={{ display: "block", fontSize: 12, color: "var(--ink)", whiteSpace: "pre-wrap", wordBreak: "break-all" }}>
-              curl -fsSL https://clerk-landing.vercel.app/connect.sh | bash
-            </code>
-          </div>
         </div>
       </section>
     </main>
