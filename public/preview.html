@@ -148,7 +148,7 @@ body {
   letter-spacing: 0.06em;
 }
 
-.screen { height: 100%; overflow-y: auto; position: relative; }
+.screen { height: 100%; overflow-y: auto; position: relative; display: flex; flex-direction: column; }
 .screen::-webkit-scrollbar { display: none; }
 
 /* ===== HERO BACKGROUNDS ===== */
@@ -245,9 +245,10 @@ body {
 }
 
 .nav-bar {
-  position: absolute; bottom: 0; left: 0; right: 0;
+  position: sticky; bottom: 0; left: 0; right: 0;
   height: 52px; background: var(--cream);
   border-top: 0.5px solid var(--shell);
+  flex-shrink: 0; z-index: 10;
   display: flex; justify-content: space-around; align-items: center;
   padding: 0 8px; z-index: 20;
 }
