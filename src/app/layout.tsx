@@ -1,17 +1,10 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-});
-
 export const metadata: Metadata = {
-  title: "Clerk — Your AI assistant",
+  title: "Clerk — Your Personal Shopify Expert",
   description:
-    "An AI assistant that actually does things for you. Manages your emails, plans your week, runs your store.",
+    "Clerk scans your Shopify store and gives you specific, actionable advice to grow your business. Free AI growth advisor.",
 };
 
 export default function RootLayout({
@@ -24,11 +17,11 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap"
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className={`${dmSans.variable} antialiased`}>{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
